@@ -1,5 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
+const path = require('path');
 
 const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
@@ -8,8 +9,9 @@ const app = express();
 
 //MIDEDLEWARES
 app.use(morgan('dev'));
-
 app.use(express.json()); //body parser
+// app.use(express.static(`${__dirname}/public}`));
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use((req, res, next) => {
   console.log('Hello from the middleware');
