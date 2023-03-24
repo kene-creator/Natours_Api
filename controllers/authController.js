@@ -1,4 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
+const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
 const catchAsync = require('../utils/catchAsync');
@@ -64,6 +65,10 @@ exports.protect = catchAsync(async (req, res, next) => {
     return next(new AppError('You must login to go access to this page', 401));
   }
 
-  console.log(token);
+  //? Verifying Token
+  // jwt.verify(token, process.env.JWT_SECRET);
+  const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+
+  console.log(decoded);
   next();
 });

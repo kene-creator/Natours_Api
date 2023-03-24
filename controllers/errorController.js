@@ -42,6 +42,9 @@ const handleValidationError = (err, res) => {
   return new AppError(message, 400);
 };
 
+const handleJwtError = (err) =>
+  new AppError('Invalid login, Please login again', 401);
+
 module.exports = (err, req, res, next) => {
   err.statusCode = err.statusCode || 500;
   err.status = err.status || 'error';
@@ -53,6 +56,7 @@ module.exports = (err, req, res, next) => {
     if (error.name === 'CastError') error = handleCastErrorDB(error);
     if (error.code === 11000) error = handleDuplicateFieldDB(error);
     if (error.name === 'ValidationError') error = handleValidationError(error);
+    if (error.name === 'JsonWebTokenError') error = handleJwtError(error);
     sendErrorProd(error, res);
   }
 };
