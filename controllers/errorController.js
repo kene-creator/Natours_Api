@@ -8,6 +8,7 @@ const sendErrorDev = (err, res) => {
     stack: err.stack,
   });
 };
+
 const sendErrorProd = (err, res) => {
   //* Operational, trusted error: send message to client
   if (err.isOperational) {
@@ -26,6 +27,7 @@ const sendErrorProd = (err, res) => {
     });
   }
 };
+
 const handleCastErrorDB = (err, res) => {
   const message = `Invalid ${err.path}: ${err.value}.`;
   return new AppError(message, 400);
